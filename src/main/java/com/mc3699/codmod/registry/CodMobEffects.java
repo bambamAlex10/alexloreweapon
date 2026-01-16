@@ -4,6 +4,8 @@ import com.mc3699.codmod.Codmod;
 import com.mc3699.codmod.effect.BleedingEffect;
 import com.mc3699.codmod.effect.HeartCorruptionEffect;
 import com.mc3699.codmod.effect.InsanityMobEffect;
+import com.mc3699.codmod.effect.Resolution;
+import com.mc3699.codmod.effect.Absolution;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.bus.api.IEventBus;
@@ -30,6 +32,16 @@ public class CodMobEffects {
     public static final DeferredHolder<MobEffect, BleedingEffect> BLEEDING = MOB_EFFECTS.register(
             "bleeding",
             BleedingEffect::new
+    );
+
+    public static final DeferredHolder<MobEffect, Absolution> ABSOLUTION = MOB_EFFECTS.register(
+            "absolution", 
+            Absolution::new
+    );
+
+    public static final DeferredHolder<MobEffect, Resolution> RESOLUTION = MOB_EFFECTS.register(
+            "resolution",
+            Resolution::new
     );
 
     public static void register(IEventBus eventBus) {

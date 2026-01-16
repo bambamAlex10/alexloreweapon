@@ -41,6 +41,48 @@
     ],
     "subtitle": "subtitles.codmod.caposwing"
   },
+  "pentinenceswing1": {
+    "sounds": [
+      "codmod:swingchain1"
+    ],
+    "subtitle": "subtitles.codmod.swingchain1"
+  },
+  "pentinenceswing2": {
+    "sounds": [
+      "codmod:swingchain2"
+    ],
+    "subtitle": "subtitles.codmod.swingchain2"
+  },
+  "pentinencehit1": {
+    "sounds": [
+      "codmod:kabonk1"
+    ],
+    "subtitle": "subtitles.codmod.pentinencehit1"
+  },
+  "pentinencehit2": {
+    "sounds": [
+      "codmod:kabonk2"
+    ],
+    "subtitle": "subtitles.codmod.pentinencehit2"
+  },
+  "standardult": {
+    "sounds": [
+      "codmod:standardult"
+    ],
+    "subtitle": "subtitles.codmod.standardult"
+  },
+  "alexult": {
+    "sounds": [
+      "codmod:alexult"
+    ],
+    "subtitle": "subtitles.codmod.alexult"
+  },
+  "rakeult": {
+    "sounds": [
+      "codmod:rakeult"
+    ],
+    "subtitle": "subtitles.codmod.rakeult"
+  },
   "coin": {
     "sounds": [
       "codmod:coin"

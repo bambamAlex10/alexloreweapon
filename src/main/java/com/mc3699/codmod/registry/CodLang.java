@@ -34,6 +34,9 @@ public class CodLang {
         CodRegistrate.INSTANCE.addRawLang("item.codmod.discord_fruit", "Discord Fruit");
         CodRegistrate.INSTANCE.addRawLang("effect.codmod.insanity", "Insanity");
         CodRegistrate.INSTANCE.addRawLang("effect.codmod.bleeding", "Bleeding");
+        CodRegistrate.INSTANCE.addRawLang("effect.codmod.absolution", "Absolution");
+                CodRegistrate.INSTANCE.addRawLang("effect.codmod.resolution", "Resolution");
+
 
         // VOTV Foods
         CodRegistrate.INSTANCE.addRawLang("item.codmod.baguette", "Baguette");

@@ -104,6 +104,35 @@ public class CodSounds {
     public static final RegistryEntry<SoundEvent, SoundEvent> CAPOKILL = CodRegistrate.INSTANCE.sound("capokill")
             .simple(false)
             .register();
+            
+    public static final RegistryEntry<SoundEvent, SoundEvent> PENTINENCEHIT1 = CodRegistrate.INSTANCE.sound("pentinenceswing1")
+            .simple(false)
+            .register();
+
+    public static final RegistryEntry<SoundEvent, SoundEvent> PENTINENCEHIT2 = CodRegistrate.INSTANCE.sound("pentinenceswing2")
+            .simple(false)
+            .register();
+
+    public static final RegistryEntry<SoundEvent, SoundEvent> PENTINENCESWING1 = CodRegistrate.INSTANCE.sound("pentinenceswing1")
+            .simple(false)
+            .register();
+
+        
+    public static final RegistryEntry<SoundEvent, SoundEvent> PENTINENCESWING2 = CodRegistrate.INSTANCE.sound("pentinenceswing2")
+            .simple(false)
+            .register();
+
+    public static final RegistryEntry<SoundEvent, SoundEvent> NORMALULT = CodRegistrate.INSTANCE.sound("standardult")
+            .simple(false)
+            .register();
+
+    public static final RegistryEntry<SoundEvent, SoundEvent> RAKEULT = CodRegistrate.INSTANCE.sound("rakeult")
+            .simple(false)
+            .register();
+            
+    public static final RegistryEntry<SoundEvent, SoundEvent> ALEXULT = CodRegistrate.INSTANCE.sound("alexult")
+            .simple(false)
+            .register();
 
     public static final RegistryEntry<SoundEvent, SoundEvent> ORCHWORK = CodRegistrate.INSTANCE.sound("orchwork")
             .simple(false)

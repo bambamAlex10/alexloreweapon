@@ -549,6 +549,11 @@ public class CodItems {
             .lang("DaCapo")
             .register();
 
+    public static final ItemEntry<PentienceItem> PENTINENCE = CodRegistrate.INSTANCE.item("pentinence",
+            (properties) -> new PentienceItem())
+            .lang("Pentinence")
+            .register();
+
     public static final ItemEntry<AdvancedServerItem> ADVANCED_SERVER = CodRegistrate.INSTANCE.item
             ("advanced_server", AdvancedServerItem::new)
             .properties(properties -> properties)

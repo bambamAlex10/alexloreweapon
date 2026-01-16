@@ -15,9 +15,27 @@ processResources {
 
 repositories {
     mavenLocal()
+    
     maven {
-        url "https://maven.stardustmodding.org/hidden-snapshots"
+        name = "Modrinth"
+        url = "api.modrinth.com"
+        content {
+            // This tells Gradle that only dependencies starting with 
+            // 'maven.modrinth' should be looked for here.
+            includeGroup "maven.modrinth"
+        }
     }
+
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+
+    // maven {
+        // url "https://maven.stardustmodding.org/hidden-snapshots"
+    // }
 
     maven {
         url "https://maven.squiddev.cc"
@@ -67,7 +85,7 @@ neoForge {
     runs {
         client {
             client()
-
+            programArguments.addAll '--username', 'AliveAlex1027'
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
@@ -134,8 +152,9 @@ dependencies {
     // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
     // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
 
-    //implementation ("dev.wendigodrip:thebrokenscript:1.10.0-beta.1+mc1.21.1-build.211")
-    implementation ("dev.wendigodrip:thebrokenscript:1.10.1+mc1.21.1-build.280")
+    // implementation ("dev.wendigodrip:thebrokenscript:1.10.0-beta.1+mc1.21.1-build.211")
+    implementation "curse.maven:the-broken-script-official-1240986:6780572"
+
 
     implementation("foundry.veil:veil-neoforge-${project.minecraft_version}:${project.veil_version}") {
         exclude group: "maven.modrinth"
@@ -203,6 +222,7 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
+        
     }
 }
 
