@@ -110,7 +110,7 @@ public class PentienceItem extends SwordItem {
             TooltipFlag tooltipFlag
     ) {
         tooltipComponents.add(Component.literal("§oFor with his rebirth, came with him the chains of his past.\n").withStyle(ChatFormatting.DARK_PURPLE));
-        tooltipComponents.add(Component.literal("c/ BigManRake,AliveAlex1027").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.literal("c/ BigManRake,AliveAlex1027").withStyle(ChatFormatting.BLACK));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
