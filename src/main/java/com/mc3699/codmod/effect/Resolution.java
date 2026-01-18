@@ -9,6 +9,7 @@ import javax.swing.text.html.parser.Entity;
 import com.mc3699.codmod.Codmod;
 import com.mc3699.codmod.network.CodVariables;
 import com.mc3699.codmod.registry.CodMobEffects;
+import com.mc3699.codmod.registry.CodParticles;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
@@ -39,6 +41,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -82,14 +85,24 @@ public class Resolution extends MobEffect {
                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
-    @EventBusSubscriber(modid = Codmod.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    @Override
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+        if (entity.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    CodParticles.RESOLUTION_PARTICLE.get(),
+                    entity.getX(), entity.getY() + 1.0, entity.getZ(),
+                    5, 0.2, 0.2, 0.2, 0.05);
+        }
+        return true;
+    }
+
+    @EventBusSubscriber(modid = Codmod.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT) // this makes the ClientHandling class work only on the client
     public class ClientHandling {
         @SubscribeEvent
         public static void onComputeFogColor(ViewportEvent.ComputeFogColor event) {
             net.minecraft.world.entity.Entity self = event.getCamera().getEntity();
 
             if (self instanceof Player player && player.hasEffect(CodMobEffects.RESOLUTION.getDelegate())) {
-
                 event.setRed(0f);
                 event.setGreen(0f);
                 event.setBlue(0f);
@@ -121,6 +134,7 @@ public class Resolution extends MobEffect {
                 return;
 
             LocalPlayer player = Minecraft.getInstance().player;
+            
             if (player == null || !player.hasEffect(CodMobEffects.RESOLUTION.getDelegate()))
                 return;
 
@@ -131,18 +145,22 @@ public class Resolution extends MobEffect {
 
             outlineBuffers.setColor(255, 0, 0, 1);
 
-            for (net.minecraft.world.entity.Entity entity : mc.level.entitiesForRendering()) {
+            double rangeSq = 30.0 * 30.0;
+            float DeltaTime = event.getPartialTick().getGameTimeDeltaTicks();
+            Vec3 CameraPosition = event.getCamera().getPosition();
+
+            for (net.minecraft.world.entity.Entity entity : mc.level.entitiesForRendering()) { // this shit isnt optimized but idk what to do about that + its client sided so only me and bigmanrake will feel it.
                 if (entity instanceof LivingEntity target && entity != player) {
-                    double rangeSq = 30.0 * 30.0;
+                    
                     if (player.distanceToSqr(entity) < rangeSq) {
                         PoseStack poseStack = event.getPoseStack();
                         
-                        double x = Mth.lerp(event.getPartialTick().getGameTimeDeltaTicks(), entity.xOld, entity.getX())
-                                - event.getCamera().getPosition().x;
-                        double y = Mth.lerp(event.getPartialTick().getGameTimeDeltaTicks(), entity.yOld, entity.getY())
-                                - event.getCamera().getPosition().y;
-                        double z = Mth.lerp(event.getPartialTick().getGameTimeDeltaTicks(), entity.zOld, entity.getZ())
-                                - event.getCamera().getPosition().z;
+                        double x = Mth.lerp(DeltaTime, entity.xOld, entity.getX())
+                                - CameraPosition.x;
+                        double y = Mth.lerp(DeltaTime, entity.yOld, entity.getY())
+                                - CameraPosition.y;
+                        double z = Mth.lerp(DeltaTime, entity.zOld, entity.getZ())
+                                - CameraPosition.z;
 
                         poseStack.pushPose();
                         poseStack.translate(x, y, z);

@@ -27,6 +27,12 @@ public class Absolution extends MobEffect {
     // public static final ResourceLocation HealthBenefits = ResourceLocation.fromNamespaceAndPath(Codmod.MOD_ID, "absolutiontier1");
     // public static final AttributeModifier HealthAddition = new AttributeModifier(HealthBenefits , .6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
 
+    public static final List<net.minecraft.core.Holder<MobEffect>> bypass = List.of(
+            CodMobEffects.ABSOLUTION,
+            CodMobEffects.INSANITY,
+            CodMobEffects.RESOLUTION
+        );
+
     public static final Supplier<AttachmentType<Integer>> EFFECT_DATA = CodVariables.ATTACHMENT_TYPES.register("absolution_data", () ->
         AttachmentType.builder(() -> 0) // dont worry about initialization
         .serialize(Codec.INT)
@@ -47,17 +53,12 @@ public class Absolution extends MobEffect {
             return true;
         }
 
-        List<MobEffectInstance> effects = new ArrayList<>(entity.getActiveEffects()); // make a copy of the current effects so that way you dont manipulate the list while going through it.
-        List<net.minecraft.core.Holder<MobEffect>> bypass = List.of(
-            CodMobEffects.ABSOLUTION.getDelegate(),
-            CodMobEffects.INSANITY.getDelegate(),
-            CodMobEffects.RESOLUTION.getDelegate()
-        );
-
         boolean ResolutionActive = entity.hasEffect(bypass.get(2));
         boolean InsanityActive = entity.hasEffect(bypass.get(1));
 
-        if (effects.size() > 1) {
+        if (entity.getActiveEffects().size() > 1) {
+            List<MobEffectInstance> effects = new ArrayList<>(entity.getActiveEffects()); // make a copy of the current effects so that way you dont manipulate the list while going through it.
+        
             int multiplier = effects.size() - 1;
             int addedtotal = 0;
 
@@ -65,9 +66,9 @@ public class Absolution extends MobEffect {
                 int effectamplifier = effectInstance.getAmplifier(); // scale of the effect
                 int effectduration = effectInstance.getDuration(); // how long it lasts in ticks
 
-                net.minecraft.core.Holder<MobEffect> effectName = effectInstance.getEffect().getDelegate();
+                net.minecraft.core.Holder<MobEffect> effect = effectInstance.getEffect();
 
-                if (bypass.contains(effectName)) { // is it in the whitelist?
+                if (bypass.contains(effect)) { // is it in the whitelist?
                     continue;
                 } else {
                     addedtotal += effectamplifier*(effectduration/20); // add to the total the multiple of the amplifier and the seconds it lasts.
@@ -110,7 +111,7 @@ public class Absolution extends MobEffect {
             return;
         }
 
-        float reduction = Mth.clamp(total/100000.0f, 0.0f, .4f); // produce the reduction float.
+        float reduction = Mth.clamp(total/120000.0f, 0.0f, .4f); // produce the reduction float. every enchanted golden apple is 1500.0f, it caps out at 48000. 
 
         float currentDamage = event.getNewDamage();
         float finalDamage = currentDamage * (1.0f - reduction);

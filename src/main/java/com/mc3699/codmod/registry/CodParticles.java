@@ -20,6 +20,9 @@ public class CodParticles {
     public static final Supplier<SimpleParticleType> SPACE_TIME_PARTICLE =
             PARTICLES.register("space_time", () -> new SimpleParticleType(true));
 
+    public static final Supplier<SimpleParticleType> RESOLUTION_PARTICLE =
+            PARTICLES.register("resolution", () -> new SimpleParticleType(true));
+
     public static void register(IEventBus eventBus)
     {
         PARTICLES.register(eventBus);
